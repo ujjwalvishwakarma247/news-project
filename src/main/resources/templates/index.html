@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Aggregator - Welcome</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated Background Shapes */
+    .background-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      opacity: 0.1;
+    }
+
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .shape:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .shape:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      bottom: -50px;
+      right: -50px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-30px) translateX(20px); }
+    }
+
+    /* Content */
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      animation: slideIn 1s ease forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+
+    .description {
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+      max-width: 500px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    a {
+      text-decoration: none;
+      color: #667eea;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      background: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      display: inline-block;
+    }
+
+    a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+      background: #f0f0f0;
+    }
+
+    .stats {
+      margin-top: 3rem;
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+      opacity: 0.8;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      a {
+        width: 100%;
+      }
+
+      .stats {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+
+  <div class="content">
+    <h1>📰 News Aggregator</h1>
+    <div class="subtitle">Stay Updated with Latest Headlines</div>
+    
+    <p class="description">
+      Get the latest news from around the world, aggregated in one place.
+      Fresh, curated, and ready to read.
+    </p>
+
+    <div class="button-group">
+      <a href="/news">📑 View Latest News</a>
+      <a href="/fetch">🔄 Fetch New Headlines</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-number">🌐</span>
+        <span class="stat-label">Global Coverage</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">⚡</span>
+        <span class="stat-label">Real-time Updates</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">✨</span>
+        <span class="stat-label">Curated Content</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

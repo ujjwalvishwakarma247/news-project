@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Aggregator - Latest News</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+    <header>
+        <h1>📰 News Aggregator</h1>
+        <p>Stay Updated with Latest Headlines</p>
+    </header>
+
+    <div class="container">
+        <nav>
+            <a href="/fetch" class="btn">🔄 Fetch Latest News</a>
+            <a href="/" class="btn">🏠 Home</a>
+        </nav>
+
+        <!-- Search and Filter Section -->
+        <div class="search-filter">
+            <form method="get" action="/news" class="search-form">
+                <div class="search-input-group">
+                    <input type="text" name="search" placeholder="🔍 Search news..." 
+                           th:value="${search}" class="search-input">
+                    <button type="submit" class="btn btn-search">Search</button>
+                </div>
+                
+                <div class="category-filter">
+                    <label for="category">Category:</label>
+                    <select name="category" id="category" class="category-select" onchange="this.form.submit()">
+                        <option th:each="cat : ${categories}" 
+                                th:value="${cat}" 
+                                th:text="${cat}"
+                                th:selected="${cat == category}"></option>
+                    </select>
+                </div>
+                
+                <a href="/news" class="btn btn-clear">Clear Filters</a>
+            </form>
+        </div>
+
+        <!-- News Grid -->
+        <div class="news-grid" th:if="${newsList != null && newsList.size() > 0}">
+            <div class="news-card" th:each="news : ${newsList}">
+                <div class="news-content">
+                    <h3 th:text="${news.title}"></h3>
+                    <p th:text="${#strings.abbreviate(news.description, 200)}"></p>
+                    <div class="news-meta">
+                        <span class="news-source" th:text="${news.source}"></span>
+                        <span class="news-category" th:text="${news.category}"></span>
+                        <span class="news-date" th:text="${#temporals.format(news.publishedAt, 'dd MMM yyyy HH:mm')}"></span>
+                    </div>
+                    <a th:href="${news.url}" target="_blank" class="read-more">Read Full Article →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" th:if="${newsList == null || newsList.size() == 0}">
+            <h2>📭 No News Found</h2>
+            <p th:if="${search != '' or category != 'all'}">Try adjusting your search or filters</p>
+            <p th:if="${search == '' and category == 'all'}">Click the button below to fetch the latest news headlines</p>
+            <a href="/fetch" class="btn">🔄 Fetch News Now</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 News Aggregator. Powered by RSS Feeds</p>
+    </footer>
+</body>
+</html>
