@@ -7,6 +7,8 @@ import com.example.news_project.Repositary.NewsRepository;
 import com.example.news_project.Servicenews.NewsApiService;
 
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class NewsService {
@@ -87,5 +89,61 @@ public class NewsService {
 
         return stream.toList();
     }
-}
 
+    // Overloaded method with date filter support
+    public List<News> getAllNews(String search, String category, String dateFilter) {
+        List<News> all = newsRepository.findAll();
+        java.util.stream.Stream<News> stream = all.stream();
+
+        // Filter by search term (title, description, source)
+        if (search != null && !search.trim().isEmpty()) {
+            String s = search.trim().toLowerCase();
+            stream = stream.filter(n -> (
+                (n.getTitle() != null && n.getTitle().toLowerCase().contains(s)) ||
+                (n.getDescription() != null && n.getDescription().toLowerCase().contains(s)) ||
+                (n.getSource() != null && n.getSource().toLowerCase().contains(s))
+            ));
+        }
+
+        // Filter by category
+        if (category != null && !category.trim().isEmpty() && !category.equalsIgnoreCase("all")) {
+            String c = category.trim().toLowerCase();
+            stream = stream.filter(n -> n.getCategory() != null && n.getCategory().toLowerCase().equals(c));
+        }
+
+        // Filter by date range (today, week, month, alltime)
+        stream = filterByDateRange(stream, dateFilter);
+
+        return stream.toList();
+    }
+
+    // Helper method to filter news by date range
+    private java.util.stream.Stream<News> filterByDateRange(java.util.stream.Stream<News> stream, String dateFilter) {
+        if (dateFilter == null || dateFilter.trim().isEmpty() || dateFilter.equalsIgnoreCase("alltime")) {
+            return stream; // Return all
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startDate;
+
+        switch (dateFilter.toLowerCase()) {
+            case "today":
+                // Today: from start of today to now
+                startDate = now.truncatedTo(ChronoUnit.DAYS);
+                break;
+            case "week":
+                // This week: last 7 days
+                startDate = now.minusDays(7);
+                break;
+            case "month":
+                // This month: last 30 days
+                startDate = now.minusDays(30);
+                break;
+            default:
+                return stream; // Unknown filter, return all
+        }
+
+        final LocalDateTime finalStartDate = startDate;
+        return stream.filter(n -> n.getPublishedAt() != null && n.getPublishedAt().isAfter(finalStartDate));
+    }
+}

@@ -8,36 +8,52 @@
 </head>
 <body>
     <header>
-        <h1>📰 News Aggregator</h1>
-        <p>Stay Updated with Latest Headlines</p>
+        <div class="header-content">
+            <h1>📰 News Aggregator</h1>
+            <p>Stay Updated with Latest Headlines</p>
+        </div>
     </header>
 
     <div class="container">
         <nav>
-            <a href="/fetch" class="btn">🔄 Fetch Latest News</a>
-            <a href="/" class="btn">🏠 Home</a>
+            <a href="/fetch" class="btn btn-primary">🔄 Fetch Latest News</a>
+            <a href="/" class="btn btn-secondary">🏠 Home</a>
         </nav>
 
         <!-- Search and Filter Section -->
         <div class="search-filter">
             <form method="get" action="/news" class="search-form">
-                <div class="search-input-group">
-                    <input type="text" name="search" placeholder="🔍 Search news..." 
-                           th:value="${search}" class="search-input">
-                    <button type="submit" class="btn btn-search">Search</button>
+                <div class="filter-section">
+                    <div class="search-input-group">
+                        <input type="text" name="search" placeholder="🔍 Search news..." 
+                               th:value="${search}" class="search-input">
+                        <button type="submit" class="btn btn-search">Search</button>
+                    </div>
                 </div>
                 
-                <div class="category-filter">
-                    <label for="category">Category:</label>
-                    <select name="category" id="category" class="category-select" onchange="this.form.submit()">
-                        <option th:each="cat : ${categories}" 
-                                th:value="${cat}" 
-                                th:text="${cat}"
-                                th:selected="${cat == category}"></option>
-                    </select>
+                <div class="filter-section">
+                    <div class="category-filter">
+                        <label for="category">📁 Category</label>
+                        <select name="category" id="category" class="category-select" onchange="this.form.submit()">
+                            <option th:each="cat : ${categories}" 
+                                    th:value="${cat}" 
+                                    th:text="${cat}"
+                                    th:selected="${cat == category}"></option>
+                        </select>
+                    </div>
+                    
+                    <div class="category-filter">
+                        <label for="date">📅 Date</label>
+                        <select name="date" id="date" class="category-select" onchange="this.form.submit()">
+                            <option value="today" th:selected="${dateFilter == 'today'}">Today</option>
+                            <option value="week" th:selected="${dateFilter == 'week'}">This Week</option>
+                            <option value="month" th:selected="${dateFilter == 'month'}">This Month</option>
+                            <option value="alltime" th:selected="${dateFilter == 'alltime'}">All Time</option>
+                        </select>
+                    </div>
+                    
+                    <a href="/news" class="btn btn-clear">✕ Clear</a>
                 </div>
-                
-                <a href="/news" class="btn btn-clear">Clear Filters</a>
             </form>
         </div>
 
@@ -69,5 +85,7 @@
     <footer>
         <p>&copy; 2025 News Aggregator. Powered by RSS Feeds</p>
     </footer>
+    
+    
 </body>
 </html>
